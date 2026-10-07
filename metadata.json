@@ -1,0 +1,6 @@
+{
+  "name": "PGDCA Master Study Portal",
+  "description": "Complete PGDCA 8 Papers syllabus questions and detailed Hindi answers with unit-wise exam preparation guide.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
