@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { X, Sparkles, Lightbulb, ChevronRight, BookOpen, Layers } from 'lucide-react';
 import { allPapers } from '../data/papers';
+import { InFeedAdCard } from './ads/InFeedAdCard';
+import { REAL_ADS } from '../data/adsData';
 
 interface QuickRevisionModalProps {
   isOpen: boolean;
@@ -100,45 +102,50 @@ export const QuickRevisionModal: React.FC<QuickRevisionModalProps> = ({
 
         {/* Revision Cards Body */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 scrollbar-thin">
-          {currentUnit.questions.map((q) => (
-            <div
-              key={q.id}
-              className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 shadow-xs space-y-2.5"
-            >
-              {/* Question Headline */}
-              <div className="flex items-start gap-2">
-                <span className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-extrabold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
-                  {q.number}
-                </span>
-                <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
-                  {q.question}
-                </h4>
+          {currentUnit.questions.map((q, qIdx) => (
+            <React.Fragment key={q.id}>
+              <div
+                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 shadow-xs space-y-2.5"
+              >
+                {/* Question Headline */}
+                <div className="flex items-start gap-2">
+                  <span className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-extrabold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                    {q.number}
+                  </span>
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
+                    {q.question}
+                  </h4>
+                </div>
+
+                {/* Core Revision Summary */}
+                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                  {q.answer.summary}
+                </div>
+
+                {/* Key Exam Tip */}
+                {q.answer.examTip && (
+                  <div className="flex items-start gap-1.5 text-xs text-amber-800 dark:text-amber-300 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-300/30">
+                    <Lightbulb className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>परीक्षा टिप:</strong> {q.answer.examTip}</span>
+                  </div>
+                )}
+
+                {/* Key terms */}
+                {q.answer.keyTerms && (
+                  <div className="flex flex-wrap gap-1 text-[10px]">
+                    {q.answer.keyTerms.map((term, tIdx) => (
+                      <span key={tIdx} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-mono">
+                        {term}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Core Revision Summary */}
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                {q.answer.summary}
-              </div>
-
-              {/* Key Exam Tip */}
-              {q.answer.examTip && (
-                <div className="flex items-start gap-1.5 text-xs text-amber-800 dark:text-amber-300 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-300/30">
-                  <Lightbulb className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
-                  <span><strong>परीक्षा टिप:</strong> {q.answer.examTip}</span>
-                </div>
+              {qIdx === 1 && (
+                <InFeedAdCard ad={REAL_ADS[(selectedUnitIndex + 4) % REAL_ADS.length]} />
               )}
-
-              {/* Key terms */}
-              {q.answer.keyTerms && (
-                <div className="flex flex-wrap gap-1 text-[10px]">
-                  {q.answer.keyTerms.map((term, tIdx) => (
-                    <span key={tIdx} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-mono">
-                      {term}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+            </React.Fragment>
           ))}
         </div>
 

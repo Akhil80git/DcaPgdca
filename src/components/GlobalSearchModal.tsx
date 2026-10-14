@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Search, X, BookOpen, Layers, ArrowRight, CornerDownLeft } from 'lucide-react';
 import { allPapers } from '../data/papers';
 import { getQuestionText, Language } from '../utils/langHelper';
+import { InFeedAdCard } from './ads/InFeedAdCard';
+import { REAL_ADS } from '../data/adsData';
 
 interface SearchResult {
   paperId: string;
@@ -165,6 +167,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 
         {/* Results List */}
         <div className="overflow-y-auto p-3 space-y-2 flex-1 scrollbar-thin">
+          {/* Sponsored Search Result Ad */}
+          <InFeedAdCard ad={REAL_ADS[(query.length + 3) % REAL_ADS.length]} />
+
           {query.trim().length < 2 ? (
             <div className="text-center py-10 px-4 text-slate-400">
               <BookOpen className="w-10 h-10 mx-auto mb-2 opacity-40 text-indigo-500" />

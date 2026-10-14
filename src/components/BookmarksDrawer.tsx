@@ -2,6 +2,8 @@ import React from 'react';
 import { Bookmark, X, ExternalLink, Trash2 } from 'lucide-react';
 import { allPapers } from '../data/papers';
 import { getQuestionText, Language } from '../utils/langHelper';
+import { InFeedAdCard } from './ads/InFeedAdCard';
+import { REAL_ADS } from '../data/adsData';
 
 interface BookmarksDrawerProps {
   isOpen: boolean;
@@ -87,6 +89,9 @@ export const BookmarksDrawer: React.FC<BookmarksDrawerProps> = ({
 
         {/* Bookmarks List */}
         <div className="p-4 space-y-3 flex-1 overflow-y-auto scrollbar-thin">
+          {/* Sponsored Learning Recommendation */}
+          <InFeedAdCard ad={REAL_ADS[7]} />
+
           {bookmarkedItems.length === 0 ? (
             <div className="text-center py-16 text-slate-400">
               <Bookmark className="w-12 h-12 mx-auto mb-3 opacity-30 text-amber-500" />

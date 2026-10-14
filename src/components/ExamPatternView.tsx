@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 
 import { Language } from '../utils/langHelper';
+import { InFeedAdCard } from './ads/InFeedAdCard';
+import { REAL_ADS } from '../data/adsData';
 
 interface ExamPatternViewProps {
   initialCourse?: 'PGDCA' | 'DCA';
@@ -167,6 +169,9 @@ export const ExamPatternView: React.FC<ExamPatternViewProps> = ({
           </table>
         </div>
       </div>
+
+      {/* Sponsored Exam Preparation Portal Ad */}
+      <InFeedAdCard ad={REAL_ADS[5]} />
 
       {/* Semester - II Table */}
       <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 shadow-sm overflow-hidden">

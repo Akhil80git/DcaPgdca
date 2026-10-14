@@ -21,6 +21,9 @@ import {
   Minimize2
 } from 'lucide-react';
 import { Language, getPaperTitle, getPaperSubtitle } from './utils/langHelper';
+import { AdManager } from './components/ads/AdManager';
+import { InFeedAdCard } from './components/ads/InFeedAdCard';
+import { REAL_ADS } from './data/adsData';
 
 export default function App() {
   // Course Mode: PGDCA or DCA
@@ -227,6 +230,9 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-200 text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-950">
       
+      {/* Dynamic Advertisement Network (Popup modal, top sticky bar, bottom floating banner, side skyscrapers) */}
+      <AdManager />
+
       {/* Top Navbar: soft pastel colors, compact, search, and dark/light toggle */}
       <Navbar
         currentCourse={course}
@@ -335,6 +341,11 @@ export default function App() {
               </div>
             </div>
 
+            {/* Alternating Sponsored Course/Tool Banner */}
+            {activeUnitIndex % 2 === 0 && (
+              <InFeedAdCard ad={REAL_ADS[(activeUnitIndex + 7) % REAL_ADS.length]} />
+            )}
+
             {/* Unit Navigation Tabs (Unit I to V) */}
             <UnitTabs
               units={currentPaper.units}
@@ -428,21 +439,25 @@ export default function App() {
               </div>
             ) : (
               <div className="space-y-3.5">
-                {displayedQuestions.map((q) => (
-                  <QuestionCard
-                    key={q.id}
-                    question={q}
-                    paperTitle={paperTitle}
-                    paperCode={currentPaper.code}
-                    unitRoman={currentUnit.unitRoman}
-                    isCompleted={completedQuestions.includes(q.id)}
-                    isBookmarked={bookmarkedQuestions.includes(q.id)}
-                    onToggleComplete={handleToggleComplete}
-                    onToggleBookmark={handleToggleBookmark}
-                    fontSize="base"
-                    defaultExpanded={expandAll}
-                    lang={lang}
-                  />
+                {displayedQuestions.map((q, idx) => (
+                  <React.Fragment key={q.id}>
+                    <QuestionCard
+                      question={q}
+                      paperTitle={paperTitle}
+                      paperCode={currentPaper.code}
+                      unitRoman={currentUnit.unitRoman}
+                      isCompleted={completedQuestions.includes(q.id)}
+                      isBookmarked={bookmarkedQuestions.includes(q.id)}
+                      onToggleComplete={handleToggleComplete}
+                      onToggleBookmark={handleToggleBookmark}
+                      fontSize="base"
+                      defaultExpanded={expandAll}
+                      lang={lang}
+                    />
+                    {idx === 1 && (
+                      <InFeedAdCard ad={REAL_ADS[(activeUnitIndex + 1) % REAL_ADS.length]} />
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             )}

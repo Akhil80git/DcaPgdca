@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { Question } from '../types';
 import { getQuestionText, Language } from '../utils/langHelper';
+import { InAnswerAd } from './ads/InAnswerAd';
+import { REAL_ADS } from '../data/adsData';
 
 interface QuestionCardProps {
   question: Question;
@@ -268,70 +270,77 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           {/* Detailed Sections */}
           <div className="space-y-5">
             {question.answer.sections.map((section, idx) => (
-              <div key={idx} className="space-y-2.5">
-                <h4 className={`text-slate-900 dark:text-slate-100 border-l-4 border-indigo-500 pl-2.5 ${fontClasses.heading}`}>
-                  {section.heading}
-                </h4>
+              <React.Fragment key={idx}>
+                <div className="space-y-2.5">
+                  <h4 className={`text-slate-900 dark:text-slate-100 border-l-4 border-indigo-500 pl-2.5 ${fontClasses.heading}`}>
+                    {section.heading}
+                  </h4>
 
-                {section.content && (
-                  <p className={`text-slate-700 dark:text-slate-300 leading-relaxed ${fontClasses.body}`}>
-                    {section.content}
-                  </p>
-                )}
+                  {section.content && (
+                    <p className={`text-slate-700 dark:text-slate-300 leading-relaxed ${fontClasses.body}`}>
+                      {section.content}
+                    </p>
+                  )}
 
-                {/* Bullet Points */}
-                {section.points && section.points.length > 0 && (
-                  <ul className="space-y-2 pl-2">
-                    {section.points.map((pt, pIdx) => (
-                      <li key={pIdx} className="flex items-start gap-2.5 text-slate-700 dark:text-slate-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 flex-shrink-0" />
-                        <span className={fontClasses.body}>{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                  {/* Bullet Points */}
+                  {section.points && section.points.length > 0 && (
+                    <ul className="space-y-2 pl-2">
+                      {section.points.map((pt, pIdx) => (
+                        <li key={pIdx} className="flex items-start gap-2.5 text-slate-700 dark:text-slate-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 flex-shrink-0" />
+                          <span className={fontClasses.body}>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
-                {/* Responsive Comparison Table */}
-                {section.table && (
-                  <div className="my-3 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
-                    <table className="w-full text-left text-xs sm:text-sm border-collapse">
-                      <thead>
-                        <tr className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700">
-                          {section.table.headers.map((h, hIdx) => (
-                            <th key={hIdx} className="p-2.5 sm:p-3 font-bold whitespace-nowrap">
-                              {h}
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900/60">
-                        {section.table.rows.map((row, rIdx) => (
-                          <tr key={rIdx} className="hover:bg-indigo-50/40 dark:hover:bg-slate-800/40 transition-colors">
-                            {row.map((cell, cIdx) => (
-                              <td key={cIdx} className="p-2.5 sm:p-3 text-slate-700 dark:text-slate-300 align-top">
-                                {cell}
-                              </td>
+                  {/* Responsive Comparison Table */}
+                  {section.table && (
+                    <div className="my-3 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
+                      <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                        <thead>
+                          <tr className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700">
+                            {section.table.headers.map((h, hIdx) => (
+                              <th key={hIdx} className="p-2.5 sm:p-3 font-bold whitespace-nowrap">
+                                {h}
+                              </th>
                             ))}
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                {/* Code or Practical Syntax Block */}
-                {section.codeOrExample && (
-                  <div className="my-3 rounded-xl overflow-hidden border border-slate-800 bg-slate-950 text-slate-100">
-                    <div className="px-4 py-1.5 bg-slate-900 border-b border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
-                      <span>{lang === 'hi' ? 'उदाहरण / सिंटैक्स' : 'Example / Syntax'}</span>
-                      <span>Code Block</span>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900/60">
+                          {section.table.rows.map((row, rIdx) => (
+                            <tr key={rIdx} className="hover:bg-indigo-50/40 dark:hover:bg-slate-800/40 transition-colors">
+                              {row.map((cell, cIdx) => (
+                                <td key={cIdx} className="p-2.5 sm:p-3 text-slate-700 dark:text-slate-300 align-top">
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    <pre className="p-3.5 text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre leading-relaxed text-emerald-400">
-                      <code>{section.codeOrExample}</code>
-                    </pre>
-                  </div>
+                  )}
+
+                  {/* Code or Practical Syntax Block */}
+                  {section.codeOrExample && (
+                    <div className="my-3 rounded-xl overflow-hidden border border-slate-800 bg-slate-950 text-slate-100">
+                      <div className="px-4 py-1.5 bg-slate-900 border-b border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                        <span>{lang === 'hi' ? 'उदाहरण / सिंटैक्स' : 'Example / Syntax'}</span>
+                        <span>Code Block</span>
+                      </div>
+                      <pre className="p-3.5 text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre leading-relaxed text-emerald-400">
+                        <code>{section.codeOrExample}</code>
+                      </pre>
+                    </div>
+                  )}
+                </div>
+
+                {/* Dynamic native sponsored ad inside answer content */}
+                {idx === 0 && question.answer.sections.length > 1 && (
+                  <InAnswerAd ad={REAL_ADS[(question.number + 5) % REAL_ADS.length]} />
                 )}
-              </div>
+              </React.Fragment>
             ))}
           </div>
 

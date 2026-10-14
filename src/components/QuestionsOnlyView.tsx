@@ -12,6 +12,8 @@ import {
   Eye
 } from 'lucide-react';
 import { getQuestionText, getPaperTitle, getPaperSubtitle, Language, getUi } from '../utils/langHelper';
+import { InFeedAdCard } from './ads/InFeedAdCard';
+import { REAL_ADS } from '../data/adsData';
 
 interface QuestionsOnlyViewProps {
   currentPaper: Paper;
@@ -133,15 +135,15 @@ export const QuestionsOnlyView: React.FC<QuestionsOnlyViewProps> = ({
 
               {/* Questions List */}
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                {unit.questions.map((q) => {
+                {unit.questions.map((q, qIdx) => {
                   const isDone = completedQuestions.includes(q.id);
                   const isFav = bookmarkedQuestions.includes(q.id);
                   const qDisplay = getQuestionText(q, lang);
 
                   return (
-                    <div 
-                      key={q.id}
-                      className="p-4 sm:p-5 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5"
+                    <React.Fragment key={q.id}>
+                      <div 
+                        className="p-4 sm:p-5 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5"
                     >
                       <div className="flex items-start gap-3 flex-1 min-w-0">
                         {/* Question Number Badge - prominent and clear */}
@@ -211,6 +213,13 @@ export const QuestionsOnlyView: React.FC<QuestionsOnlyViewProps> = ({
                       </div>
 
                     </div>
+
+                    {qIdx === 1 && (
+                      <div className="p-3 bg-slate-50/40 dark:bg-slate-900/40">
+                        <InFeedAdCard ad={REAL_ADS[(actualUnitIndex + 1) % REAL_ADS.length]} />
+                      </div>
+                    )}
+                  </React.Fragment>
                   );
                 })}
               </div>
